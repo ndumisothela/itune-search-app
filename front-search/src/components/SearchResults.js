@@ -2,21 +2,30 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './SearchResults.css';  // Make sure this path is correct
 
-function SearchResults() {
-    const [term, setTerm] = useState('');
-    const [media, setMedia] = useState('all');
-    const [results, setResults] = useState([]);
 
+//// State hooks to store the search term, media type, and search results
+function SearchResults() {
+    const [term, setTerm] = useState(''); // Holds the search term entered by the user
+    const [media, setMedia] = useState('all');  // Holds the type of media to search for, defaults to 'all'
+    const [results, setResults] = useState([]);  // Array to store search results
+
+
+    // Function to handle the search operation.
+// Prevents the default form submit behavior (page reload) 
     const handleSearch = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
         try {
+
+            // Sending a GET request to the server with parameters for term and media 
             const { data } = await axios.get(`http://localhost:5000/api/search?term=${term}&media=${media}`);
-            setResults(data.results);
+            setResults(data.results); // Update the results state with response data*/}
         } catch (error) {
-            console.error('Error fetching data: ', error);
+        
+            console.error('Error fetching data: ', error);     // Logs error to the console if the request fails
         }
     };
 
+  // Render method returns the UI for the component
     return (
         <div className="search-container">
             <form onSubmit={handleSearch} className="search-form">
@@ -52,3 +61,4 @@ function SearchResults() {
 }
 
 export default SearchResults;
+// Exports the component for use in other parts of the application
