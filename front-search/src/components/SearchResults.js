@@ -37,7 +37,7 @@ function SearchResults() {
 
        // Render the component
     return (
-        <div>
+        <div className='search-container'>
             <h1>iTune Media Search</h1>
             {/* Input field for entering the search term*/}
             {/* Input field for entering the search term*/}
@@ -75,7 +75,7 @@ function SearchResults() {
                     ))}
                 </ul>
             </div>
-            <div>
+            <div className='favourites'>
                 <h2>Favourites</h2>
                 <ul>
                     {/*Map each favourite item to an li element*/}
