@@ -1,42 +1,53 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SearchResults.css';  // Make sure this path is correct
+import './SearchResults.css'; // Assuming CSS is properly set up
 
 
-//// State hooks to store the search term, media type, and search results
+// Define the functional component SearchResults
 function SearchResults() {
-    const [term, setTerm] = useState(''); // Holds the search term entered by the user
-    const [media, setMedia] = useState('all');  // Holds the type of media to search for, defaults to 'all'
-    const [results, setResults] = useState([]);  // Array to store search results
+    const [term, setTerm] = useState(''); // State variable 'term' to store the search term entered by the user
+    const [media, setMedia] = useState('all'); // State variable 'media' to store the type of media to search for
+    const [results, setResults] = useState([]);  // State variable 'results' to store the search results from the iTunes API
+    const [favourites, setFavourites] = useState([]); // State variable 'favourites' to store the user's favourite items
 
 
-    // Function to handle the search operation.
-// Prevents the default form submit behavior (page reload) 
+    // Function to handle the search request
+    // Prevent default form submission behavior
+
     const handleSearch = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         try {
-
-            // Sending a GET request to the server with parameters for term and media 
-            const { data } = await axios.get(`http://localhost:5000/api/search?term=${term}&media=${media}`);
-            setResults(data.results); // Update the results state with response data*/}
+            const { data } = await axios.get(`http://localhost:5000/api/search?term=${term}&media=${media}`); // Perform a GET request using axios to fetch data from the iTunes API
+            setResults(data.results);// Update the 'results' state with the fetched data
         } catch (error) {
-        
-            console.error('Error fetching data: ', error);     // Logs error to the console if the request fails
+            console.error('Error fetching data: ', error);// Log error if the request fails
         }
     };
+ // Function to add an item to the favourites list
+    const addToFavourites = (item) => {
+        setFavourites([...favourites, item]); 
+    };// Add the selected item to the 'favourites' state array
 
-  // Render method returns the UI for the component
+
+     // Function to remove an item from the favourites list
+    const removeFromFavourites = (id) => {
+        setFavourites(favourites.filter(item => item.trackId !== id));
+    };// Filter out the item by 'trackId' and update the state
+
+
+       // Render the component
     return (
-        <div className="search-container">
-            <form onSubmit={handleSearch} className="search-form">
-                <input
-                    type="text"
-                    className="search-input"
-                    value={term}
-                    onChange={(e) => setTerm(e.target.value)}
-                    placeholder="Search iTunes"
-                />
-                <select className="search-select" value={media} onChange={(e) => setMedia(e.target.value)}>
+        <div>
+            <h1>iTune Media Search</h1>
+            {/* Input field for entering the search term*/}
+            {/* Input field for entering the search term*/}
+{/* Update the 'term' state on every keystroke*/}
+            <form className='search-form' onSubmit={handleSearch}>
+                <input className='search-input' type="text" 
+                 value={term} 
+                  onChange={(e) => setTerm(e.target.value)} placeholder="Search iTunes" /> 
+                <select value={media} onChange={(e) => setMedia(e.target.value)}>
+                    {/* Options for different types of media to search */}
                     <option value="all">All</option>
                     <option value="music">Music</option>
                     <option value="movie">Movies</option>
@@ -47,18 +58,40 @@ function SearchResults() {
                     <option value="software">Software</option>
                     <option value="ebook">eBooks</option>
                 </select>
-                <button type="submit" className="search-button">Search</button>
+                <button type="submit">Search</button> {/* Button to submit the form*/}
             </form>
-            <ul className="results-list">
-                {results.map((item, index) => (
-                    <li key={index} className="result-item">
-                        {item.trackName || item.collectionName}
-                    </li>
-                ))}
-            </ul>
+            <div className='resFav'>
+            <div>
+                <h2>Results</h2>
+                <ul>
+                    {/*// Map each search result to an li element*/}
+                    {/* Use 'trackId' as a unique key for each list item*/}
+                    {/*Display the track or collection name*/}
+                    {results.map(item => (
+                        <li className='resultList' key={item.trackId}>
+                            {item.trackName || item.collectionName}
+                            <button className='addBtn' onClick={() => addToFavourites(item)}>Add to Favourites</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <div>
+                <h2>Favourites</h2>
+                <ul>
+                    {/*Map each favourite item to an li element*/}
+                    {/*Use 'trackId' as a unique key for each list item */}
+                    {/*Display the track or collection name */}
+                    {favourites.map(item => (
+                        <li key={item.trackId}>
+                            {item.trackName || item.collectionName}
+                            <button className='removeBtn' onClick={() => removeFromFavourites(item.trackId)}>Remove</button> {/*/ Button to remove item from favourites */}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            </div>
         </div>
     );
 }
 
 export default SearchResults;
-// Exports the component for use in other parts of the application
