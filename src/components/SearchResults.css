@@ -1,10 +1,12 @@
 .search-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    
     padding: 20px;
     margin: auto;
-    max-width: 800px;
+    flex-direction: column;
+    align-items: center;
+    background-image: url(../assets/pexels-markusspiske-96857.jpg);
+    background-size:cover;
 }
 
 .search-form {
@@ -63,6 +65,8 @@
 }
 .resFav{
     display: flex;
+    justify-content: space-between;
+
 }
 .addBtn{
     background-color: #4CAF50;
@@ -76,4 +80,7 @@
     border: 1px grey solid;
     background-color: lightcoral;
     border-radius: 5px;
+}
+.favourites{
+    margin-left: 30px;
 }
