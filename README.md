@@ -17,4 +17,4 @@ the application is deployed using netlify for the frontend and render for the ba
 
 ckick on the link below to see the deployed application 
 
-https://itune-search-app.netlify.app/
+https://itune-search-app-front.onrender.com/
