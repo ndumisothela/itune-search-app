@@ -19,7 +19,7 @@ app.get('/api/search', async (req, res) => {
     const { term, media } = req.query;
     try {
         // Performing a GET request to the iTunes search API using axios
-        const response = await axios.get(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&media=${media}`);
+        const response = await axios.get(`https://itune-search-app.onrender.com/search?term=${encodeURIComponent(term)}&media=${media}`);
         // Sending back the data received from iTunes API as JSON
         res.json(response.data);
     } catch (error) {

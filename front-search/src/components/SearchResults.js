@@ -13,7 +13,7 @@ function SearchResults() {
     const handleSearch = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.get(`http://localhost:5000/api/search?term=${term}&media=${media}`); // Perform a GET request using axios to fetch data from the iTunes API
+            const { data } = await axios.get(`https://itune-app-server.onrender.com/api/search?term=${term}&media=${media}`); // Perform a GET request using axios to fetch data from the iTunes API
             setResults(data.results);// Update the 'results' state with the fetched data
         } catch (error) {
             console.error('Error fetching data: ', error);// Log error if the request fails
